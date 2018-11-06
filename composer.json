@@ -1,0 +1,44 @@
+{
+  "name": "eliyas5044/laravel-visual-installer",
+  "description": "Laravel visual installer",
+  "type": "library",
+  "keywords": [
+    "laravel",
+    "installer",
+    "visual installer"
+  ],
+  "homepage": "https://github.com/eliyas5044/laravel-visual-installer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Eliyas Hossain",
+      "email": "eliyas.ru1991@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/eliyas5044/laravel-visual-installer/issues",
+    "source": "https://github.com/eliyas5044/laravel-visual-installer"
+  },
+  "require": {
+    "php": ">=7.1.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Eliyas5044\\LaravelVisualInstaller\\": "src/"
+    },
+    "files": [
+      "src/Helpers/functions.php"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Eliyas5044\\LaravelVisualInstaller\\Providers\\LaravelVisualInstallerServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "stable"
+}
