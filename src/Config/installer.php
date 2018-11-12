@@ -19,7 +19,7 @@ return [
     ],
     'final' => [
         'key' => true,
-        'jwt' => true,
+        'jwt' => false,
         'publish' => false
     ],
     'requirements' => [
