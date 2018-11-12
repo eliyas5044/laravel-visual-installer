@@ -22,7 +22,7 @@ class StorageLinkManager
      *
      * @return mixed
      */
-    private function storageLink()
+    protected function storageLink()
     {
         $message = trans('installer_messages.storage_link.success');
 

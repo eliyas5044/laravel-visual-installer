@@ -10,7 +10,7 @@ class DatabaseController extends Controller
     /**
      * @var DatabaseManager
      */
-    private $databaseManager;
+    protected $databaseManager;
 
     /**
      * @param DatabaseManager $databaseManager

@@ -31,7 +31,7 @@ class DatabaseManager
      * @param collection $outputLog
      * @return collection
      */
-    private function migrate($outputLog)
+    protected function migrate($outputLog)
     {
         try {
             Artisan::call('migrate', ["--force" => true], $outputLog);
@@ -48,7 +48,7 @@ class DatabaseManager
      * @param collection $outputLog
      * @return array
      */
-    private function seed($outputLog)
+    protected function seed($outputLog)
     {
         try {
             Artisan::call('db:seed', ['--force' => true], $outputLog);
@@ -67,7 +67,7 @@ class DatabaseManager
      * @param collection $outputLog
      * @return array
      */
-    private function response($message, $status = 'danger', $outputLog)
+    protected function response($message, $status = 'danger', $outputLog)
     {
         return [
             'status' => $status,
@@ -81,7 +81,7 @@ class DatabaseManager
      *
      * @param collection $outputLog
      */
-    private function sqlite($outputLog)
+    protected function sqlite($outputLog)
     {
         if (DB::connection() instanceof SQLiteConnection) {
             $database = DB::connection()->getDatabaseName();

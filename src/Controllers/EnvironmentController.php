@@ -120,7 +120,7 @@ class EnvironmentController extends Controller
      * @param Request $request
      * @return bool
      */
-    private function checkDatabaseConnection(Request $request)
+    protected function checkDatabaseConnection(Request $request)
     {
         $connection = $request->get('database_connection');
         $settings = config("database.connections.$connection");

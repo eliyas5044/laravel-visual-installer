@@ -45,23 +45,35 @@ class EnvironmentManager
     }
 
     /**
-     * Get the the .env file path.
-     *
      * @return string
      */
-    public function getEnvPath()
+    public function getEnvPath(): string
     {
         return $this->envPath;
     }
 
     /**
-     * Get the the .env.example file path.
-     *
      * @return string
      */
-    public function getEnvExamplePath()
+    public function getEnvExamplePath(): string
     {
         return $this->envExamplePath;
+    }
+
+    /**
+     * @param string $envPath
+     */
+    public function setEnvPath(string $envPath): void
+    {
+        $this->envPath = $envPath;
+    }
+
+    /**
+     * @param string $envExamplePath
+     */
+    public function setEnvExamplePath(string $envExamplePath): void
+    {
+        $this->envExamplePath = $envExamplePath;
     }
 
     /**

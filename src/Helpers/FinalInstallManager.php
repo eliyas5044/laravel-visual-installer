@@ -18,6 +18,7 @@ class FinalInstallManager
         $outputLog = new BufferedOutput;
 
         $this->generateKey($outputLog);
+        $this->generateJwtSecret($outputLog);
         $this->publishVendorAssets($outputLog);
 
         return $outputLog->fetch();
@@ -26,8 +27,8 @@ class FinalInstallManager
     /**
      * Generate New Application Key.
      *
-     * @param collection $outputLog
-     * @return collection
+     * @param outputLog
+     * @return array
      */
     private static function generateKey($outputLog)
     {
@@ -43,10 +44,29 @@ class FinalInstallManager
     }
 
     /**
+     * Generate JWT secret
+     *
+     * @param $outputLog
+     * @return array
+     */
+    private static function generateJwtSecret($outputLog)
+    {
+        try {
+            if (config('installer.final.jwt')) {
+                Artisan::call('jwt:secret', ["--force" => true], $outputLog);
+            }
+        } catch (Exception $e) {
+            return static::response($e->getMessage(), $outputLog);
+        }
+
+        return $outputLog;
+    }
+
+    /**
      * Publish vendor assets.
      *
-     * @param collection $outputLog
-     * @return collection
+     * @param $outputLog
+     * @return array
      */
     private static function publishVendorAssets($outputLog)
     {
@@ -65,7 +85,7 @@ class FinalInstallManager
      * Return a formatted error messages.
      *
      * @param $message
-     * @param collection $outputLog
+     * @param $outputLog
      * @return array
      */
     private static function response($message, $outputLog)
