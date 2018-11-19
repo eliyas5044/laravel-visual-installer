@@ -100,50 +100,11 @@ class EnvironmentController extends Controller
             return redirect()->route('LaravelVisualInstaller::environmentWizard')->withErrors($validator)->withInput();
         }
 
-        if (!$this->checkDatabaseConnection($request)) {
-            return redirect()->route('LaravelVisualInstaller::environmentWizard')->withErrors([
-                'database_connection' => 'Could not connect to the database.',
-            ])->withInput();
-        }
-
         $results = $this->EnvironmentManager->saveFileWizard($request);
 
         event(new EnvironmentSaved($request));
 
         return redirect()->route('LaravelVisualInstaller::database')
             ->with(['results' => $results]);
-    }
-
-    /**
-     * Validate database connection with user credentials (Form Wizard).
-     *
-     * @param Request $request
-     * @return bool
-     */
-    protected function checkDatabaseConnection(Request $request)
-    {
-        $connection = $request->get('database_connection');
-        $settings = config("database.connections.$connection");
-        config([
-            'database' => [
-                'default' => $connection,
-                'connections' => [
-                    $connection => array_merge($settings, [
-                        'driver' => $connection,
-                        'host' => $request->input('database_hostname'),
-                        'port' => $request->input('database_port'),
-                        'database' => $request->input('database_name'),
-                        'username' => $request->input('database_username'),
-                        'password' => $request->input('database_password'),
-                    ]),
-                ],
-            ],
-        ]);
-        try {
-            DB::connection()->getPdo();
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
     }
 }

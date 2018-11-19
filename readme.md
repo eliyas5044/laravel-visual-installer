@@ -8,6 +8,7 @@
 - [Requirements](#requirements)
 - [Laravel Compatibility](#laravel-compatibility)
 - [Installation](#installation)
+- [Extends](#extends)
 - [Routes](#routes)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -36,7 +37,7 @@ The current features are :
 
   Laravel  | Laravel Visual Installer
   :---------|:----------
-  5.7      | 1.0
+  5.7      | 1.0 +
 
 ## Installation
 
@@ -63,6 +64,45 @@ sudo chown -R $USER:www-data /var/www/html/laravel
 # give folder permissions
 sudo chmod -R 775 storage
 sudo chmod -R 775 bootstrap/cache
+```
+
+## Extends
+
+If you need extend this package, such as need more `.env` variables, need to override controller method, you can easily extend it.
+Create a file `EnvironmentManager` in your _app_ directory and bind it in your `AppServiceProvider`.
+```php
+use Eliyas5044\LaravelVisualInstaller\Controllers\FinalController;
+use Eliyas5044\LaravelVisualInstaller\Helpers\EnvironmentManager;
+
+public function register()
+{
+    $this->app->bind(EnvironmentManager::class, \App\Helpers\EnvironmentManager::class);
+    $this->app->bind(FinalController::class, \App\Http\Controllers\FinalController::class);
+}
+```
+> Override controller method in \App\Http\Controllers\FinalController::class
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Eliyas5044\LaravelVisualInstaller\Events\LaravelVisualInstallerFinished;
+use Eliyas5044\LaravelVisualInstaller\Helpers\EnvironmentManager;
+use Eliyas5044\LaravelVisualInstaller\Helpers\FinalInstallManager;
+use Eliyas5044\LaravelVisualInstaller\Helpers\InstalledFileManager;
+
+class FinalController extends \Eliyas5044\LaravelVisualInstaller\Controllers\FinalController
+{
+    public function finish(InstalledFileManager $fileManager, FinalInstallManager $finalInstall, EnvironmentManager $environment)
+    {
+        $finalMessages = $finalInstall->runFinal();
+        $finalEnvFile = $environment->getEnvContent();
+    
+        event(new LaravelVisualInstallerFinished);
+    
+        return view('vendor.installer.finished', compact('finalMessages', 'finalEnvFile'));
+    }
+}
 ```
 
 ## Routes
